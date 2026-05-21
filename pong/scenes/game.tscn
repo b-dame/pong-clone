@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://djwewioeynbpj"]
+
+[ext_resource type="PackedScene" uid="uid://bkadht57160lf" path="res://scenes/paddle.tscn" id="1_uwrxv"]
+[ext_resource type="Script" uid="uid://k3hp2cn41liu" path="res://scripts/player.gd" id="2_lnu2h"]
+[ext_resource type="PackedScene" uid="uid://bkgsgplmdrdk4" path="res://scenes/ball.tscn" id="2_yqjtg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lnu2h"]
+size = Vector2(1184, 20)
+
+[node name="Game" type="Node2D" unique_id=1289052870]
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=610797843]
+
+[node name="CPUPaddle" parent="." unique_id=987919166 instance=ExtResource("1_uwrxv")]
+position = Vector2(-490, 0)
+
+[node name="PlayerPaddle" parent="." unique_id=968174661 instance=ExtResource("1_uwrxv")]
+position = Vector2(490, 0)
+script = ExtResource("2_lnu2h")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1381566233]
+z_index = -1
+offset_left = -585.0
+offset_top = -328.0
+offset_right = 582.0
+offset_bottom = 332.0
+color = Color(0.2, 0.19215687, 0.16862746, 1)
+
+[node name="Ball" parent="." unique_id=1130905496 instance=ExtResource("2_yqjtg")]
+
+[node name="Boundary" type="StaticBody2D" parent="." unique_id=1952302812]
+
+[node name="Upper" type="CollisionShape2D" parent="Boundary" unique_id=1812482459]
+position = Vector2(0, -332)
+shape = SubResource("RectangleShape2D_lnu2h")
+
+[node name="Lower" type="CollisionShape2D" parent="Boundary" unique_id=767392214]
+position = Vector2(0, 332)
+shape = SubResource("RectangleShape2D_lnu2h")

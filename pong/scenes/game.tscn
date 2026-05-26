@@ -1,18 +1,30 @@
 [gd_scene format=3 uid="uid://djwewioeynbpj"]
 
+[ext_resource type="Script" uid="uid://cgklmhm4owh7b" path="res://scenes/game.gd" id="1_p57ef"]
 [ext_resource type="PackedScene" uid="uid://bkadht57160lf" path="res://scenes/paddle.tscn" id="1_uwrxv"]
+[ext_resource type="Script" uid="uid://bgoqp6s0sb5mk" path="res://scenes/paddle.gd" id="2_iywne"]
 [ext_resource type="Script" uid="uid://k3hp2cn41liu" path="res://scripts/player.gd" id="2_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://bkgsgplmdrdk4" path="res://scenes/ball.tscn" id="2_yqjtg"]
+[ext_resource type="Script" uid="uid://dxkqksn24ftnh" path="res://scenes/ball.gd" id="4_lbhrr"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lnu2h"]
+friction = 0.5
+bounce = 1.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lnu2h"]
 size = Vector2(1184, 20)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iywne"]
+size = Vector2(39, 300)
+
 [node name="Game" type="Node2D" unique_id=1289052870]
+script = ExtResource("1_p57ef")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=610797843]
 
 [node name="CPUPaddle" parent="." unique_id=987919166 instance=ExtResource("1_uwrxv")]
 position = Vector2(-490, 0)
+script = ExtResource("2_iywne")
 
 [node name="PlayerPaddle" parent="." unique_id=968174661 instance=ExtResource("1_uwrxv")]
 position = Vector2(490, 0)
@@ -27,8 +39,16 @@ offset_bottom = 332.0
 color = Color(0.2, 0.19215687, 0.16862746, 1)
 
 [node name="Ball" parent="." unique_id=1130905496 instance=ExtResource("2_yqjtg")]
+unique_name_in_owner = true
+collision_mask = 3
+physics_material_override = SubResource("PhysicsMaterial_lnu2h")
+linear_velocity = Vector2(350, 0)
+linear_damp_mode = 1
+angular_damp = 0.5
+script = ExtResource("4_lbhrr")
 
 [node name="Boundary" type="StaticBody2D" parent="." unique_id=1952302812]
+collision_layer = 2
 
 [node name="Upper" type="CollisionShape2D" parent="Boundary" unique_id=1812482459]
 position = Vector2(0, -332)
@@ -37,3 +57,21 @@ shape = SubResource("RectangleShape2D_lnu2h")
 [node name="Lower" type="CollisionShape2D" parent="Boundary" unique_id=767392214]
 position = Vector2(0, 332)
 shape = SubResource("RectangleShape2D_lnu2h")
+
+[node name="OpponentScoreBoundary" type="Area2D" parent="." unique_id=497938518]
+
+[node name="OpponentScore" type="CollisionShape2D" parent="OpponentScoreBoundary" unique_id=1168759710]
+position = Vector2(560, 0)
+scale = Vector2(1, 2.2)
+shape = SubResource("RectangleShape2D_iywne")
+
+[node name="PlayerScoreBoundary" type="Area2D" parent="." unique_id=1765271713]
+
+[node name="PlayerScore" type="CollisionShape2D" parent="PlayerScoreBoundary" unique_id=2040433613]
+position = Vector2(-560, 0)
+scale = Vector2(1, 2.2)
+shape = SubResource("RectangleShape2D_iywne")
+
+[connection signal="body_entered" from="OpponentScoreBoundary" to="." method="_on_opponent_score_boundary_body_entered"]
+[connection signal="body_entered" from="PlayerScoreBoundary" to="." method="_on_score_boundary_body_entered"]
+[connection signal="body_entered" from="PlayerScoreBoundary" to="." method="_on_player_score_boundary_body_entered"]

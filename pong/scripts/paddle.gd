@@ -7,7 +7,7 @@ var direction = 0.0
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta):
+func _physics_process(_delta):
 	var diff = %Ball.position.y - position.y
 	if abs(diff) > 5:
 		direction = sign(diff)

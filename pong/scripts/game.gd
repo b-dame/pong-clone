@@ -9,15 +9,15 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 
 
-func _on_opponent_score_boundary_body_entered(body):
+func _on_opponent_score_boundary_body_entered(_body):
 	opponent_score += 1
 	print("Opponent Scored! -- CPU:", opponent_score, " You:", player_score)
 	
 
-func _on_player_score_boundary_body_entered(body):
+func _on_player_score_boundary_body_entered(_body):
 	player_score += 1
 	print("You Scored! -- CPU:", opponent_score, " You:", player_score)
